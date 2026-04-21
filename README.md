@@ -31,32 +31,37 @@ A production-ready Flask microservice with comprehensive DevOps tooling, Kuberne
 ### Local Development
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/ghgl.git
    cd ghgl
    ```
 
 2. **Set up virtual environment**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Copy environment file**
+
    ```bash
    cp .env.example .env
    ```
 
 5. **Run the application**
+
    ```bash
    flask run
    ```
-   
+
    The API will be available at `http://localhost:5000`
 
 ### Docker
@@ -152,6 +157,7 @@ Two workflows are configured:
 - **docker-build.yml**: Builds and pushes Docker images to Docker Hub and GitHub Container Registry
 
 Required secrets:
+
 - `DOCKERHUB_USERNAME`
 - `DOCKERHUB_TOKEN`
 - `GITHUB_TOKEN`
