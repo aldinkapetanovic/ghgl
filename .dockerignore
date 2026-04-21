@@ -1,0 +1,14 @@
+# Docker build cache invalidation
+.git
+.gitignore
+.dockerignore
+README.md
+LICENSE
+docs/
+tests/
+.vscode/
+.pytest_cache/
+__pycache__/
+*.pyc
+.env
+.env.local

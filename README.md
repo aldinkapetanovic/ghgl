@@ -1,93 +1,259 @@
-# ghgl
+# GHGL - Production-Ready Flask API
 
+[![Tests](https://github.com/your-username/ghgl/actions/workflows/test.yml/badge.svg)](https://github.com/your-username/ghgl/actions/workflows/test.yml)
+[![Docker Build](https://github.com/your-username/ghgl/actions/workflows/docker-build.yml/badge.svg)](https://github.com/your-username/ghgl/actions/workflows/docker-build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+A production-ready Flask microservice with comprehensive DevOps tooling, Kubernetes support, and modern development practices.
 
-## Getting started
+## 🎯 Features
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **Flask REST API** with health checks and configurable endpoints
+- **Docker** containerization with security best practices
+- **Kubernetes** manifests with HPA, network policies, and RBAC
+- **Helm Chart** for easy Kubernetes deployments
+- **CI/CD Pipelines** for both GitHub Actions and GitLab CI
+- **Comprehensive Testing** with pytest and coverage reporting
+- **Code Quality** tools: Black, isort, flake8, mypy
+- **Pre-commit Hooks** for automated code validation
+- **Development Environment** with VS Code configuration
+- **Docker Compose** for local development
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 📋 Requirements
 
-## Add your files
+- Python 3.11+
+- Docker & Docker Compose (for containerized development)
+- Kubernetes 1.20+ (for K8s deployment)
+- Helm 3+ (for Helm deployment)
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 🚀 Quick Start
+
+### Local Development
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/ghgl.git
+   cd ghgl
+   ```
+
+2. **Set up virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Copy environment file**
+   ```bash
+   cp .env.example .env
+   ```
+
+5. **Run the application**
+   ```bash
+   flask run
+   ```
+   
+   The API will be available at `http://localhost:5000`
+
+### Docker
+
+Run the application using Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+Access at `http://localhost:5000`
+
+## 📝 API Endpoints
+
+- `GET /` - Welcome message
+- `GET /health` - Health check
+- `GET /api/version` - API version info
+- `GET /api/info` - Application information
+- `POST /api/echo` - Echo endpoint for testing
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+pytest
+```
+
+Run tests with coverage:
+
+```bash
+pytest --cov=app --cov-report=html
+```
+
+## 📦 Docker Build
+
+Build the Docker image:
+
+```bash
+docker build -t ghgl:latest .
+```
+
+Run the container:
+
+```bash
+docker run -p 5000:5000 ghgl:latest
+```
+
+## ☸️ Kubernetes Deployment
+
+### Using kubectl
+
+Apply the base manifests:
+
+```bash
+kubectl apply -f kubernetes/
+```
+
+### Using Helm
+
+Install the Helm chart:
+
+```bash
+helm install ghgl ./helm/ghgl -n ghgl --create-namespace
+```
+
+Upgrade existing release:
+
+```bash
+helm upgrade ghgl ./helm/ghgl -n ghgl
+```
+
+Uninstall:
+
+```bash
+helm uninstall ghgl -n ghgl
+```
+
+### Verify Deployment
+
+```bash
+kubectl get pods -n ghgl
+kubectl port-forward -n ghgl svc/ghgl-service 5000:80
+```
+
+## 🔄 CI/CD Pipelines
+
+### GitHub Actions
+
+Two workflows are configured:
+
+- **test.yml**: Runs tests, linting, and code quality checks
+- **docker-build.yml**: Builds and pushes Docker images to Docker Hub and GitHub Container Registry
+
+Required secrets:
+- `DOCKERHUB_USERNAME`
+- `DOCKERHUB_TOKEN`
+- `GITHUB_TOKEN`
+
+### GitLab CI
+
+Configured in `.gitlab-ci.yml`:
+
+- **test**: Python linting and tests
+- **build**: Docker image build and push to GitLab Registry
+- **push_github**: Optional push to GitHub Container Registry
+- **tag_release**: Tag releases with version numbers
+
+## 🛠️ Development Tools
+
+### Code Formatting
+
+```bash
+black app tests
+isort app tests
+```
+
+### Code Linting
+
+```bash
+flake8 app tests
+```
+
+### Pre-commit Hooks
+
+Install pre-commit hooks:
+
+```bash
+pre-commit install
+```
+
+Run all checks:
+
+```bash
+pre-commit run --all-files
+```
+
+## 📚 Project Structure
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/aldinkapetanovic/ghgl.git
-git branch -M main
-git push -uf origin main
+ghgl/
+├── app/                      # Application package
+│   ├── __init__.py          # App factory
+│   ├── config.py            # Configuration
+│   └── routes.py            # API routes
+├── kubernetes/              # K8s manifests
+│   ├── deployment.yaml
+│   ├── ingress.yaml
+│   └── rbac.yaml
+├── helm/ghgl/               # Helm chart
+│   ├── Chart.yaml
+│   ├── values.yaml
+│   └── templates/
+├── .github/workflows/       # GitHub Actions
+├── .vscode/                 # VS Code settings
+├── tests/                   # Test suite
+├── .gitlab-ci.yml           # GitLab CI
+├── Dockerfile               # Container definition
+├── docker-compose.yml       # Local development
+├── requirements.txt         # Python dependencies
+└── README.md               # This file
 ```
 
-## Integrate with your tools
+## 🔐 Security
 
-* [Set up project integrations](https://gitlab.com/aldinkapetanovic/ghgl/-/settings/integrations)
+- Non-root user in Docker container
+- Security headers in Helm chart
+- Network policies for pod-to-pod communication
+- RBAC configured for service accounts
+- Health checks and readiness probes
 
-## Collaborate with your team
+## 📖 Environment Variables
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+See `.env.example` for all available options:
 
-## Test and Deploy
+- `FLASK_ENV`: Environment (development/production)
+- `FLASK_APP`: Application entry point
+- `SECRET_KEY`: Flask secret key
+- `LOG_LEVEL`: Logging level
+- `CORS_ORIGINS`: Allowed CORS origins
 
-Use the built-in continuous integration in GitLab.
+## 🤝 Contributing
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-***
+## 📄 License
 
-# Editing this README
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## 👤 Author
 
-## Suggestions for a good README
+Your Name - [@your-github](https://github.com/your-username)
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 🙋 Support
 
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+For support, open an issue in the repository or contact the maintainers.

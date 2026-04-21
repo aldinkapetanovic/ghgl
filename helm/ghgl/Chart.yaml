@@ -1,0 +1,16 @@
+apiVersion: v2
+name: ghgl
+description: A Helm chart for GHGL Flask Application
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - flask
+  - python
+  - api
+home: https://github.com/username/ghgl
+sources:
+  - https://github.com/username/ghgl
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
