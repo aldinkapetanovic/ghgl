@@ -171,7 +171,45 @@ Configured in `.gitlab-ci.yml`:
 - **push_github**: Optional push to GitHub Container Registry
 - **tag_release**: Tag releases with version numbers
 
-## 🛠️ Development Tools
+## � Repository Management
+
+### Push to Multiple Remotes (GitHub & GitLab)
+
+This repository is synced to both GitHub and GitLab. To automatically push to both platforms:
+
+**Check current remotes:**
+
+```bash
+git remote -v
+```
+
+**Add GitHub as a push destination (if not already configured):**
+
+```bash
+git remote set-url --add --push origin git@github.com:username/ghgl.git
+```
+
+**Add GitLab as a push destination:**
+
+```bash
+git remote set-url --add --push origin git@gitlab.com:username/ghgl.git
+```
+
+**Verify both push URLs are configured:**
+
+```bash
+git config --get-all remote.origin.pushurl
+```
+
+**Now a single push command will push to both remotes:**
+
+```bash
+git push origin
+```
+
+This setup allows you to maintain both repositories in sync with a single push operation.
+
+## �🛠️ Development Tools
 
 ### Code Formatting
 
