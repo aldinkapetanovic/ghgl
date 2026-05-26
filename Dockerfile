@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.14.5
 
 # Set working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
+    gcc curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
